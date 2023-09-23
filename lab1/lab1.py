@@ -8,15 +8,15 @@ while True:
     # Завдання 1: Введення користувача
     expression = input("Введіть вираз: ") #(або 'вихід' для виходу)
 
-    # Вихід з програми, якщо користувач ввів "вихід"
-    #if expression.lower() == 'вихід':
-    #    break
+    #Вихід з програми, якщо користувач ввів "вихід"
+    if expression.lower() == 'вихід':
+        break
 
     try:
         num1, operator, num2 = map(str.strip, expression.split())
 
         # Завдання 2: Перевірка оператора
-        if operator not in ('+', '-', '*', '/', '^', '√', '%', 'M+' , 'MR'):
+        if operator not in ('+', '-', '*', '/', '^', '√', '%'):
             print("Error: Невірний оператор!")
             continue
 
