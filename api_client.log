@@ -1,0 +1,6 @@
+2023-12-09 19:54:01,898 - ERROR: Помилка обробки команди 2: UserInterface.save_data() missing 1 required positional argument: 'file_format'
+2023-12-09 19:54:06,679 - ERROR: Помилка обробки команди 2: UserInterface.save_data() missing 1 required positional argument: 'file_format'
+2023-12-09 19:54:08,097 - ERROR: Помилка обробки команди 2: UserInterface.save_data() missing 1 required positional argument: 'file_format'
+2023-12-09 19:54:08,515 - ERROR: Помилка обробки команди 2: UserInterface.save_data() missing 1 required positional argument: 'file_format'
+2023-12-09 19:54:08,929 - ERROR: Помилка обробки команди 2: UserInterface.save_data() missing 1 required positional argument: 'file_format'
+2023-12-09 19:54:09,410 - ERROR: Помилка обробки команди 2: UserInterface.save_data() missing 1 required positional argument: 'file_format'
