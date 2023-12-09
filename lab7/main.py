@@ -3,6 +3,7 @@ import requests
 import json
 import csv
 import re
+import pandas as pd
 import logging
 from prettytable import PrettyTable
 
@@ -17,9 +18,8 @@ class FileStorage:
             with open('saved_data.json', 'w') as file:
                 json.dump(data, file, indent=4)
         elif file_format == 'csv':
-            with open('saved_data.csv', 'w', newline='') as file:
-                csv_writer = csv.writer(file)
-                csv_writer.writerows(data)
+            dataframe = pd.DataFrame(data)
+            dataframe.to_csv('saved_data.csv', index=False)
         elif file_format == 'txt':
             with open('saved_data.txt', 'w') as file:
                 file.write(str(data))
