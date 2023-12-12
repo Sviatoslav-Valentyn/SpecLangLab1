@@ -10,10 +10,19 @@ from prettytable import PrettyTable
 # Завдання 7: Ініціалізація логування
 logging.basicConfig(filename='api_client.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
+
 class FileStorage:
     @staticmethod
     def store_data(data, file_format):
         # Завдання 6: Збереження даних у чіткому та читабельному форматі JSON, CSV та TXT
+        """
+        Зберігає дані у вказаному форматі.
+
+        Parameters:
+            data (list): Дані для збереження.
+            file_format (str): Формат збереження ('json', 'csv', 'txt').
+
+        """
         if file_format == 'json':
             with open('saved_data.json', 'w') as file:
                 json.dump(data, file, indent=4)
@@ -24,12 +33,31 @@ class FileStorage:
             with open('saved_data.txt', 'w') as file:
                 file.write(str(data))
 
+
 class ApiClient:
     def __init__(self, api_url):
         # Завдання 1: Вибір провайдера API
+        """
+        Ініціалізація об'єкта ApiClient.
+
+        Parameters:
+            api_url (str): URL API-провайдера.
+
+        """
         self.api_url = api_url
 
     def make_request(self, endpoint, params=None):
+        """
+        Виконує HTTP GET-запит до API.
+
+        Parameters:
+            endpoint (str): Ім'я ендпоінта API.
+            params (dict): Параметри запиту.
+
+        Returns:
+            dict or None: Результат запиту або None у випадку помилки.
+
+        """
         try:
             headers = {'Accept': 'application/json'}
             # Завдання 2: Інтеграція API
@@ -40,7 +68,18 @@ class ApiClient:
             # Завдання 7: Обробка помилок
             logging.error(f'Помилка виклику API: {err}')
             return None
+
     def add_todo(self, todo_data):
+        """
+        Додає новий елемент справи до API.
+
+        Parameters:
+            todo_data (dict): Дані нової справи.
+
+        Returns:
+            dict or None: Результат запиту або None у випадку помилки.
+
+        """
         try:
             endpoint = 'todos'
             headers = {'Content-Type': 'application/json'}
@@ -51,12 +90,27 @@ class ApiClient:
             logging.error(f'Помилка виклику API: {err}')
             return None
 
+
 class UserInterface:
     def __init__(self, api_client):
+        """
+        Ініціалізація об'єкта UserInterface.
+
+        Parameters:
+            api_client (ApiClient): Об'єкт для взаємодії з API.
+
+        """
         self.api_client = api_client
         self.history = []
 
     def display_data(self, data):
+        """
+        Виводить дані у форматі PrettyTable.
+
+        Parameters:
+            data (list): Список об'єктів для виведення.
+
+        """
         if data:
             headers = data[0].keys()
             rows = [d.values() for d in data]
@@ -70,6 +124,13 @@ class UserInterface:
     def display_menu(self):
         # Завдання 3: Введення користувача
         # Просте українське меню
+        """
+        Виводить меню та отримує вибір користувача.
+
+        Returns:
+            str: Вибір користувача.
+
+        """
         print("Виберіть опцію:")
         print("1. Переглянути список справ")
         print("2. Зберегти дані")
@@ -80,6 +141,13 @@ class UserInterface:
         return user_input
 
     def process_command(self, command):
+        """
+        Обробляє команди користувача.
+
+        Parameters:
+            command (str): Команда користувача.
+
+        """
         try:
             if command == '1':
                 endpoint = 'todos'
@@ -109,32 +177,46 @@ class UserInterface:
             logging.error(f'Помилка обробки команди {command}: {e}')
 
     def add_new_todo(self):
+        """
+        Додає нову справу.
+
+        """
         title = input('Введіть назву нової справи: ')
         completed = input('Чи завершена справа? (True/False): ').lower() == 'true'
 
         new_todo = {'userId': 1, 'title': title, 'completed': completed}
         self.history.append({'command': 'add_todo', 'data': new_todo})
         print('Нову справу успішно додано.')
-        
+
     def save_data(self, data, file_format):
+        """
+        Зберігає дані у вказаному форматі.
+
+        Parameters:
+            data (list): Дані для збереження.
+            file_format (str): Формат збереження ('json', 'csv', 'txt').
+
+        """
         FileStorage.store_data(data, file_format)
 
     def run(self):
+        """
+        Запускає інтерфейс користувача.
+
+        """
         while True:
             command = self.display_menu()
             if command.lower() == 'exit':
                 break
             self.process_command(command)
 
-if __name__ == '__main__':
+
+def run_lab7():
     api_url = 'https://jsonplaceholder.typicode.com'
     api_client = ApiClient(api_url)
     interface = UserInterface(api_client)
+    interface.run()
 
-    while True:
-        command = interface.display_menu()
 
-        if command.lower() == 'exit':
-            break
-
-        interface.process_command(command)
+if __name__ == '__main__':
+    run_lab7()

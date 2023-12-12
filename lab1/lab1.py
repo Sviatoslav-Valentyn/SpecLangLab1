@@ -1,67 +1,94 @@
 import math
-result = None
 
-# Завдання 9: Історія обчислень
-history = []
+class Calculator:
+    """
+    Клас калькулятора для базових арифметичних операцій.
 
-while True:
-    # Завдання 1: Введення користувача
-    expression = input("Введіть вираз: ") #(або 'вихід' для виходу)
+    Attributes:
+    - result (float): Результат останнього обчислення.
+    - history (list): Список для зберігання історії обчислень.
+    """
 
-    #Вихід з програми, якщо користувач ввів "вихід"
-    if expression.lower() == 'вихід':
-        break
+    def __init__(self):
+        """Ініціалізація об'єкта Calculator."""
+        self.result = None
+        self.history = []
 
-    try:
+    def calculate(self, expression):
+        """
+        Виконати обчислення на основі заданого виразу.
+
+        Args:
+        - expression (str): Математичний вираз для оцінки.
+
+        Returns:
+        - float: Результат обчислення.
+        """
         num1, operator, num2 = map(str.strip, expression.split())
 
-        # Завдання 2: Перевірка оператора
         if operator not in ('+', '-', '*', '/', '^', '√', '%'):
-            print("Error: Невірний оператор!")
-            continue
+            raise ValueError("Невірний оператор!")
 
-        # Завдання 6: Десяткові числа
         num1 = float(num1)
         num2 = float(num2)
 
-        # Обчислення результату
         if operator == '+':
-            result = num1 + num2 # Завдання 3: Обчислення
+            self.result = num1 + num2
         elif operator == '-':
-            result = num1 - num2 # Завдання 3: Обчислення
+            self.result = num1 - num2
         elif operator == '*':
-            result = num1 * num2 # Завдання 3: Обчислення
+            self.result = num1 * num2
         elif operator == '/':
-            if num2 == 0 or num1 == 0:        # Завдання 5: Обробка помилок
-                print("Error: Не можна ділити на нуль!")
-                continue
-            result = num1 / num2
-            
-        # Завдання 7: Додаткові операції
+            if num2 == 0 or num1 == 0:
+                raise ValueError("Неможливо ділити на нуль!")
+            self.result = num1 / num2
         elif operator == '^':
-            result = num1 ** num2
+            self.result = num1 ** num2
         elif operator == '√':
-            result = math.sqrt(num1)
+            self.result = math.sqrt(num1)
         elif operator == '%':
-            result = num1 % num2
+            self.result = num1 % num2
 
-        # Виведення результату
-        print(f"Результат: {result}")
+        self.history.append((expression, self.result))
+        return self.result
 
-         # Завдання 9: Історія обчислень
-        history.append((expression, result))
-        
-        # Завдання 9: Історія обчислень
-        print("Історія обчислень:")
-        for expr, res in history:
-            print(f"{expr} = {res}")
-        
-        # Завдання 4: Повторення обчислень
-        next_operation = input("Бажаєте продовжити (так/ні)? ")
-        if next_operation.lower() != 'так':
-            break
+class CalculatorApp:
+    """
+    Клас CalculatorApp для запуску додатку калькулятора.
 
-    except ValueError:
-        print("Error: Невірний формат!")
+    Attributes:
+    - calculator (Calculator): Об'єкт Calculator для виконання обчислень.
+    """
 
-print("Я виключаюсь")
+    def __init__(self):
+        """Ініціалізація об'єкта CalculatorApp."""
+        self.calculator = Calculator()
+
+    def run(self):
+        """Запустити додаток калькулятора."""
+        while True:
+            expression = input("Введіть вираз(наприклад 1 + 1): ")
+
+            if expression.lower() == 'вихід':
+                break
+
+            try:
+                result = self.calculator.calculate(expression)
+                print(f"Результат: {result}")
+
+                print("Історія обчислень:")
+                for expr, res in self.calculator.history:
+                    print(f"{expr} = {res}")
+
+                next_operation = input("Продовжити (так/ні)? ")
+                if next_operation.lower() != 'так':
+                    break
+
+            except ValueError as e:
+                print(f"Помилка: {e}")
+
+        print("Вихід з калькулятора")
+
+if __name__ == "__main__":
+    app = CalculatorApp()
+    app.run()
