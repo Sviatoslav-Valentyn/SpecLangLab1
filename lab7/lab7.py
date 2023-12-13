@@ -1,8 +1,5 @@
-from cgi import FieldStorage
 import requests
 import json
-import csv
-import re
 import pandas as pd
 import logging
 from prettytable import PrettyTable

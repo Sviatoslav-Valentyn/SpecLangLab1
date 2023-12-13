@@ -64,31 +64,32 @@ class CalculatorApp:
         """Ініціалізація об'єкта CalculatorApp."""
         self.calculator = Calculator()
 
-    def run(self):
-        """Запустити додаток калькулятора."""
-        while True:
-            expression = input("Введіть вираз(наприклад 1 + 1): ")
 
-            if expression.lower() == 'вихід':
+def run_lab1():
+    """Запустити додаток калькулятора."""
+    app = CalculatorApp()  # Instantiate CalculatorApp
+    while True:
+        expression = input("Введіть вираз (наприклад 1 + 1): ")
+
+        if expression.lower() == 'вихід':
+            break
+
+        try:
+            result = app.calculator.calculate(expression)
+            print(f"Результат: {result}")
+
+            print("Історія обчислень:")
+            for expr, res in app.calculator.history:
+                print(f"{expr} = {res}")
+
+            next_operation = input("Продовжити (так/ні)? ")
+            if next_operation.lower() != 'так':
                 break
 
-            try:
-                result = self.calculator.calculate(expression)
-                print(f"Результат: {result}")
+        except ValueError as e:
+            print(f"Помилка: {e}")
 
-                print("Історія обчислень:")
-                for expr, res in self.calculator.history:
-                    print(f"{expr} = {res}")
-
-                next_operation = input("Продовжити (так/ні)? ")
-                if next_operation.lower() != 'так':
-                    break
-
-            except ValueError as e:
-                print(f"Помилка: {e}")
-
-        print("Вихід з калькулятора")
+    print("Вихід з калькулятора")
 
 if __name__ == "__main__":
-    app = CalculatorApp()
-    app.run()
+    run_lab1()
